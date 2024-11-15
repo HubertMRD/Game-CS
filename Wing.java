@@ -6,12 +6,21 @@ public class Wing {
 	private String description;
 	private Wing east, west, north, south, up, down;
 	private HashMap<String, Item> items;
-
+	private boolean locked;
+	
 	public Wing(String d) {
 		description = d;
 		this.items = new HashMap<>();
+		this.locked = false;
 	}
-
+	
+	public boolean isLocked() {
+		return locked;
+	}
+	
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 	
 	public void addItem(Item item) {
 		items.put(item.getName(), item); 
@@ -27,7 +36,6 @@ public class Wing {
 		}
 	}
 
-	// Removes an item by name
 	public void removeItem(String itemName) {
 		if (items.remove(itemName) == null) {
 			System.out.println("Item '" + itemName + "' not found, so it could not be removed.");

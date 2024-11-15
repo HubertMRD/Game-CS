@@ -23,14 +23,40 @@ public class Item {
     }
 
     public void open() {
-        Game.print("You can't open that!");
+        System.out.println("You can't open that!");
     }
 
     public void use() {
-        Game.print("You can't use that!");
+        switch (name.toLowerCase()) {
+            case "magic scroll":
+                revealHiddenMessage();
+                break;
+            case "teleportation crystal":
+                teleportPlayer();
+                break;
+            case "ancient book":
+                createSpecialKey();
+                break;
+            default:
+                System.out.println("You can't use this item.");
+        }
     }
 
-    
+    private void revealHiddenMessage() {
+        System.out.println("The Magic Scroll reveals: 'Seek the crystal to find a hidden passage.'");
+    }
+
+    private void teleportPlayer() {
+        System.out.println("The Teleportation Crystal glows and transports you to a different room!");
+        Game.teleportToRoom("East"); 
+    }
+
+    private void createSpecialKey() {
+        System.out.println("The Ancient Book opens, and a mysterious key materializes!");
+        Game.addToInventory(new Item("Mysterious Key", "A key that unlocks a secret chamber."));
+    }
+
+   
     public static class Combination extends Item {
         public Combination(String name, String description) {
             super(name, description);
@@ -38,11 +64,11 @@ public class Item {
 
         @Override
         public void use() {
-            Game.print("If you find a safe, try opening it!");
+            System.out.println("If you find a safe, try opening it!");
         }
     }
 
-  
+   
     public static class Safe extends Item {
         public Safe(String name, String description) {
             super(name, description);
@@ -50,16 +76,14 @@ public class Item {
 
         @Override
         public void open() {
-            Item combination = Dungeon.getInventoryItem("combination");
+            Item combination = Game.getInventoryItem("combination");
             if (combination != null) {
-                Game.print("Using the combination, you open the safe and find a diamond inside! Naturally, you pocket the diamond.");
+                System.out.println("Using the combination, you open the safe and find a diamond inside! Naturally, you pocket the diamond.");
                 Item diamond = new Item("Diamond", "A shiny, precious diamond.");
-                Dungeon.addToInventory(diamond);
+                Game.addToInventory(diamond);
             } else {
-                Game.print("The safe is locked and you don't have the combination.");
+                System.out.println("The safe is locked, and you don't have the combination.");
             }
         }
     }
 }
-
-

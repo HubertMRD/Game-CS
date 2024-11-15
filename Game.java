@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 
 public class Game {
-    private static Wing currentRoom;
+    private static String currentRoom;
     private static HashMap<String, Item> inventory = new HashMap<>();
 
     public static void main(String[] args) {
@@ -15,7 +15,17 @@ public class Game {
     public static void print(Object obj) { 
         System.out.println(obj.toString()); 
     }
+    
+    public static Item getInventoryItem(String itemName) {
+        return inventory.get(itemName.toLowerCase());
+    }
 
+    public static void addToInventory(Item item) {
+        inventory.put(item.getName().toLowerCase(), item);
+        print(item.getName() + " has been added to your inventory.");
+    }
+   
+    
     public static void runGame() {
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to the Dungeon!");
@@ -119,5 +129,19 @@ public class Game {
 
         input.close();
     }
-}
+    public static void unlockRoom(Wing room) {
+        if (room.isLocked()) {
+            room.setLocked(false);
+            print("The " + room.getDescription() + " is now unlocked!");
+        }
+    }
 
+    public static void teleportToRoom(Wing targetRoom) {
+        currentRoom = targetRoom;
+        print("You have been teleported to the " + currentRoom.getDescription() + "!");
+    }
+
+	
+
+		
+	}

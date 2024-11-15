@@ -21,11 +21,27 @@ public class Dungeon {
         Item book = new Item("Book", "An old dusty book.");
         Item key = new Item("Key", "A small brass key.");
         Item torch = new Item("Torch", "A flickering torch.");
-
+        Item notebook = new Item("NoteBook","Something you can write in.");
+        //Item  = new Item("Note#2","-------");
+        Item note = new Item("Note#1","Find the other to find where u are.");
+        Item note2 = new Item("Note#2","If you find this note good job but there is no way out.");
+        Item note3 = new Item("Note#3","-------");
+        Item note4 = new Item("Note#4","-------");
+        Item note5 = new Item("Note#5","-------");
+        Item note6 = new Item("Note#6","-------");
+        Item note7 = new Item("Note#7","-------");
+        
+        
+        
         north.addItem(book);
         north.addItem(key);
         north.addItem(torch);
-
+        north.addItem(notebook);
+        east.addItem(note);
+        north.addItem(note2);
+        
+        east.setLocked(true);
+        
         currentWing = north;
 
         north.addExit('s', south);
@@ -93,14 +109,24 @@ public class Dungeon {
     }
 
     public void moveTo(Wing newWing) {
-        if (newWing != null) {
+        if (newWing == null) {
+            System.out.println("You can't move in that direction.");
+        } else if (newWing.isLocked()) {
+            if (getInventoryItem("key") != null) {
+                newWing.setLocked(false); 
+                System.out.println("You used the key to unlock the " + newWing.getDescription() + " wing.");
+                currentWing = newWing;
+                System.out.println("You have moved to the " + currentWing.getDescription() + " wing.");
+            } else {
+                System.out.println("The " + newWing.getDescription() + " wing is locked. You need a key.");
+            }
+        } else {
             currentWing = newWing;
             System.out.println("You have moved to the " + currentWing.getDescription() + " wing.");
-        } else {
-            System.out.println("You can't move in that direction.");
         }
     }
 
+   
     private void takeItem(String itemName) {
         Item item = currentWing.getItem(itemName);
         if (item != null) {
@@ -134,6 +160,14 @@ public class Dungeon {
             System.out.println("Added " + item.getName() + " to inventory.");
         }
     }
+   
+    public class CantGoWayException extends RuntimeException{
+    	public CantGoWayException (String error) {
+    		super(error);
+    	} 
+    }
+    
+    
+   
+   
 }
-
-
