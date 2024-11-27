@@ -1,15 +1,19 @@
 package game;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
-
 
 public class Game {
     private static String currentRoom;
     private static HashMap<String, Item> inventory = new HashMap<>();
+    private static HashMap<String, Wing> rooms = new HashMap<>();
+    public static Scanner scan = new Scanner(System.in);
 
+    
     public static void main(String[] args) {
         runGame();
+        
     }
 
     public static void print(Object obj) { 
@@ -141,7 +145,36 @@ public class Game {
         print("You have been teleported to the " + currentRoom.getDescription() + "!");
     }
 
-	
+    public class Puppy extends NPC {
 
-		
-	}
+        public Puppy() {
+            super("Puppy", "A hideous puppy wags his tail.");
+        }
+
+        @Override
+        public void talk() {
+            say("HI! I'm an adorable puppy!");
+            String[] options = {
+                "Yes you are! Who's a good boy?", 
+                "Ew, no. You're actually kinda hideous."
+            };
+            getResponse(options);
+        }
+
+        @Override
+        public void response(int option) {
+            switch (option) {
+                case 1:
+                    say("Awww, thank you! You're my best friend now!");
+                    break;
+                case 2:
+                    say("Oh... that's mean. I just wanted to be friends...");
+                    break;
+                default:
+                    say("I don't understand what you mean...");
+            }
+        }
+    }
+
+}
+
